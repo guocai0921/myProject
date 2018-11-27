@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+数据库数据源[db_entity|]
+@author Sun GuoCai
+@version v1.0.0
+@date 2018-11-27 18:57:45
+-->
+<mapper namespace="com.guocai.jdbc.mapper.DBEntityMapper" >
+
+	<resultMap id="BaseResultMap" type="com.guocai.jdbc.entity.DBEntity" >
+		<!--  -->
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<!-- 密码 -->
+		<result column="db_password" property="dbPassword" jdbcType="VARCHAR" />
+		<!-- 数据库名 -->
+		<result column="db_sid" property="dbSid" jdbcType="VARCHAR" />
+		<!-- 数据库类别
+
+ -->
+		<result column="db_name" property="dbName" jdbcType="VARCHAR" />
+		<!-- 数据源名称 -->
+		<result column="db_desc" property="dbDesc" jdbcType="VARCHAR" />
+		<!-- 服务器IP -->
+		<result column="db_host" property="dbHost" jdbcType="VARCHAR" />
+		<!-- 用户名 -->
+		<result column="db_username" property="dbUsername" jdbcType="VARCHAR" />
+		<!-- 端口号 -->
+		<result column="db_port" property="dbPort" jdbcType="VARCHAR" />
+		<!-- 驱动 -->
+		<result column="db_driver_name" property="dbDriverName" jdbcType="VARCHAR" />
+		<!-- 驱动模式 -->
+		<result column="db_driver" property="dbDriver" jdbcType="VARCHAR" />
+	</resultMap>
+  
+ 
+	<sql id="Base_Column_List" >
+		id,
+		db_password,
+		db_sid,
+		db_name,
+		db_desc,
+		db_host,
+		db_username,
+		db_port,
+		db_driver_name,
+		db_driver
+	</sql>
+  
+	<sql id="Blob_Column_List" >
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    	<include refid="Base_Column_List" />
+		from db_entity
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null" >
+				AND id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="dbPassword != null" >
+				AND db_password = #{dbPassword,jdbcType=VARCHAR}
+			</if>
+			<if test="dbSid != null" >
+				AND db_sid = #{dbSid,jdbcType=VARCHAR}
+			</if>
+			<if test="dbName != null" >
+				AND db_name = #{dbName,jdbcType=VARCHAR}
+			</if>
+			<if test="dbDesc != null" >
+				AND db_desc = #{dbDesc,jdbcType=VARCHAR}
+			</if>
+			<if test="dbHost != null" >
+				AND db_host = #{dbHost,jdbcType=VARCHAR}
+			</if>
+			<if test="dbUsername != null" >
+				AND db_username = #{dbUsername,jdbcType=VARCHAR}
+			</if>
+			<if test="dbPort != null" >
+				AND db_port = #{dbPort,jdbcType=VARCHAR}
+			</if>
+			<if test="dbDriverName != null" >
+				AND db_driver_name = #{dbDriverName,jdbcType=VARCHAR}
+			</if>
+			<if test="dbDriver != null" >
+				AND db_driver = #{dbDriver,jdbcType=VARCHAR}
+			</if>
+		</trim>
+		ORDER BY 
+		<if test="order != null">  
+			${order}  
+		</if>
+		<if test="order == null">  
+			ID DESC
+		</if>
+	</select>
+	<delete id="delete" parameterType="com.guocai.jdbc.entity.DBEntity" >
+		delete from db_entity
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null" >
+				AND id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="dbPassword != null" >
+				AND db_password = #{dbPassword,jdbcType=VARCHAR}
+			</if>
+			<if test="dbSid != null" >
+				AND db_sid = #{dbSid,jdbcType=VARCHAR}
+			</if>
+			<if test="dbName != null" >
+				AND db_name = #{dbName,jdbcType=VARCHAR}
+			</if>
+			<if test="dbDesc != null" >
+				AND db_desc = #{dbDesc,jdbcType=VARCHAR}
+			</if>
+			<if test="dbHost != null" >
+				AND db_host = #{dbHost,jdbcType=VARCHAR}
+			</if>
+			<if test="dbUsername != null" >
+				AND db_username = #{dbUsername,jdbcType=VARCHAR}
+			</if>
+			<if test="dbPort != null" >
+				AND db_port = #{dbPort,jdbcType=VARCHAR}
+			</if>
+			<if test="dbDriverName != null" >
+				AND db_driver_name = #{dbDriverName,jdbcType=VARCHAR}
+			</if>
+			<if test="dbDriver != null" >
+				AND db_driver = #{dbDriver,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</delete>
+	<delete id="deleteByPrimaryKey" parameterType="com.guocai.jdbc.entity.DBEntity" >
+		delete from db_entity
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<delete id="deleteAllByPrimaryKey" parameterType="java.util.List" >
+		delete from db_entity
+		where id in
+		<foreach collection="list" item = "item" open="(" separator="," close=")">#{item}  
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="com.guocai.jdbc.entity.DBEntity" >
+		insert into db_entity (
+			id,
+			db_password,
+			db_sid,
+			db_name,
+			db_desc,
+			db_host,
+			db_username,
+			db_port,
+			db_driver_name,
+			db_driver
+		)
+		values (
+			#{id,jdbcType=INTEGER},
+			#{dbPassword,jdbcType=VARCHAR},
+			#{dbSid,jdbcType=VARCHAR},
+			#{dbName,jdbcType=VARCHAR},
+			#{dbDesc,jdbcType=VARCHAR},
+			#{dbHost,jdbcType=VARCHAR},
+			#{dbUsername,jdbcType=VARCHAR},
+			#{dbPort,jdbcType=VARCHAR},
+			#{dbDriverName,jdbcType=VARCHAR},
+			#{dbDriver,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertAll" parameterType="java.util.List" >
+		insert into db_entity (
+			id,
+			db_password,
+			db_sid,
+			db_name,
+			db_desc,
+			db_host,
+			db_username,
+			db_port,
+			db_driver_name,
+			db_driver
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id,jdbcType=INTEGER},
+				#{item.dbPassword,jdbcType=VARCHAR},
+				#{item.dbSid,jdbcType=VARCHAR},
+				#{item.dbName,jdbcType=VARCHAR},
+				#{item.dbDesc,jdbcType=VARCHAR},
+				#{item.dbHost,jdbcType=VARCHAR},
+				#{item.dbUsername,jdbcType=VARCHAR},
+				#{item.dbPort,jdbcType=VARCHAR},
+				#{item.dbDriverName,jdbcType=VARCHAR},
+				#{item.dbDriver,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+	<update id="update" parameterType="com.guocai.jdbc.entity.DBEntity" >
+		update db_entity set
+		<trim suffixOverrides=",">
+			<if test="id != null" >
+				id = #{id,jdbcType=INTEGER},
+			</if>
+			<if test="dbPassword != null" >
+				db_password = #{dbPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="dbSid != null" >
+				db_sid = #{dbSid,jdbcType=VARCHAR},
+			</if>
+			<if test="dbName != null" >
+				db_name = #{dbName,jdbcType=VARCHAR},
+			</if>
+			<if test="dbDesc != null" >
+				db_desc = #{dbDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="dbHost != null" >
+				db_host = #{dbHost,jdbcType=VARCHAR},
+			</if>
+			<if test="dbUsername != null" >
+				db_username = #{dbUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="dbPort != null" >
+				db_port = #{dbPort,jdbcType=VARCHAR},
+			</if>
+			<if test="dbDriverName != null" >
+				db_driver_name = #{dbDriverName,jdbcType=VARCHAR},
+			</if>
+			<if test="dbDriver != null" >
+				db_driver = #{dbDriver,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		where ID = #{sid,jdbcType=DECIMAL}
+	</update>
+	<update id="updateAll" parameterType="com.guocai.jdbc.entity.DBEntity" >
+		<foreach collection="list" item="item" index="index" separator=";" open="" close="">
+			update db_entity set
+			<trim suffixOverrides=",">
+				<if test="item.id != null" >
+					id = #{item.id,jdbcType=INTEGER},
+				</if>
+				<if test="item.dbPassword != null" >
+					db_password = #{item.dbPassword,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbSid != null" >
+					db_sid = #{item.dbSid,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbName != null" >
+					db_name = #{item.dbName,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbDesc != null" >
+					db_desc = #{item.dbDesc,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbHost != null" >
+					db_host = #{item.dbHost,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbUsername != null" >
+					db_username = #{item.dbUsername,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbPort != null" >
+					db_port = #{item.dbPort,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbDriverName != null" >
+					db_driver_name = #{item.dbDriverName,jdbcType=VARCHAR},
+				</if>
+				<if test="item.dbDriver != null" >
+					db_driver = #{item.dbDriver,jdbcType=VARCHAR},
+				</if>
+			</trim>
+			where ID = #{item.id,jdbcType=DECIMAL}
+		</foreach>
+	</update>
+</mapper>

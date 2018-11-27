@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+用户表[t_user|]
+@author Sun GuoCai
+@version v1.0.0
+@date 2018-11-18 20:35:30
+-->
+<mapper namespace="com.guocai.user.mapper.TUserMapper" >
+
+	<resultMap id="BaseResultMap" type="com.guocai.user.entity.TUser" >
+		<!--  -->
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<!-- 住址 -->
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<!-- 入职时间 -->
+		<result column="REGTIME" property="regtime" jdbcType="TIMESTAMP" />
+		<!-- 出生日期 -->
+		<result column="HIREDATE" property="hiredate" jdbcType="TIMESTAMP" />
+		<!-- 学历 -->
+		<result column="DEGREE" property="degree" jdbcType="VARCHAR" />
+		<!-- 密码 -->
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<!-- 年龄 -->
+		<result column="AGE" property="age" jdbcType="INTEGER" />
+		<!-- 性别 -->
+		<result column="SEX" property="sex" jdbcType="INTEGER" />
+		<!-- 用户名 -->
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<!-- 电话 -->
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<!-- 薪资 -->
+		<result column="SALARY" property="salary" jdbcType="DOUBLE" />
+		<!-- 邮箱 -->
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+	</resultMap>
+  
+ 
+	<sql id="Base_Column_List" >
+		id,
+		ADDRESS,
+		REGTIME,
+		HIREDATE,
+		DEGREE,
+		PASSWORD,
+		AGE,
+		SEX,
+		USER_NAME,
+		PHONE,
+		SALARY,
+		EMAIL
+	</sql>
+  
+	<sql id="Blob_Column_List" >
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    	<include refid="Base_Column_List" />
+		from t_user
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null" >
+				AND id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="address != null" >
+				AND ADDRESS = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="regtime != null" >
+				AND REGTIME = #{regtime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="hiredate != null" >
+				AND HIREDATE = #{hiredate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="degree != null" >
+				AND DEGREE = #{degree,jdbcType=VARCHAR}
+			</if>
+			<if test="password != null" >
+				AND PASSWORD = #{password,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null" >
+				AND AGE = #{age,jdbcType=INTEGER}
+			</if>
+			<if test="sex != null" >
+				AND SEX = #{sex,jdbcType=INTEGER}
+			</if>
+			<if test="userName != null" >
+				AND USER_NAME = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="phone != null" >
+				AND PHONE = #{phone,jdbcType=VARCHAR}
+			</if>
+			<if test="salary != null" >
+				AND SALARY = #{salary,jdbcType=DOUBLE}
+			</if>
+			<if test="email != null" >
+				AND EMAIL = #{email,jdbcType=VARCHAR}
+			</if>
+		</trim>
+		ORDER BY 
+		<if test="order != null">  
+			${order}  
+		</if>
+		<if test="order == null">  
+			ID DESC
+		</if>
+	</select>
+	<delete id="delete" parameterType="com.guocai.user.entity.TUser" >
+		delete from t_user
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null" >
+				AND id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="address != null" >
+				AND ADDRESS = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="regtime != null" >
+				AND REGTIME = #{regtime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="hiredate != null" >
+				AND HIREDATE = #{hiredate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="degree != null" >
+				AND DEGREE = #{degree,jdbcType=VARCHAR}
+			</if>
+			<if test="password != null" >
+				AND PASSWORD = #{password,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null" >
+				AND AGE = #{age,jdbcType=INTEGER}
+			</if>
+			<if test="sex != null" >
+				AND SEX = #{sex,jdbcType=INTEGER}
+			</if>
+			<if test="userName != null" >
+				AND USER_NAME = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="phone != null" >
+				AND PHONE = #{phone,jdbcType=VARCHAR}
+			</if>
+			<if test="salary != null" >
+				AND SALARY = #{salary,jdbcType=DOUBLE}
+			</if>
+			<if test="email != null" >
+				AND EMAIL = #{email,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		delete from t_user
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<delete id="deleteAllByPrimaryKey" parameterType="java.util.List" >
+		delete from t_user
+		where id in
+		<foreach collection="list" item = "item" open="(" separator="," close=")">#{item}  
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="com.guocai.user.entity.TUser" >
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+		insert into t_user (
+			id,
+			ADDRESS,
+			REGTIME,
+			HIREDATE,
+			DEGREE,
+			PASSWORD,
+			AGE,
+			SEX,
+			USER_NAME,
+			PHONE,
+			SALARY,
+			EMAIL
+		)
+		values (
+			#{id,jdbcType=INTEGER},
+			#{address,jdbcType=VARCHAR},
+			#{regtime,jdbcType=TIMESTAMP},
+			#{hiredate,jdbcType=TIMESTAMP},
+			#{degree,jdbcType=VARCHAR},
+			#{password,jdbcType=VARCHAR},
+			#{age,jdbcType=INTEGER},
+			#{sex,jdbcType=INTEGER},
+			#{userName,jdbcType=VARCHAR},
+			#{phone,jdbcType=VARCHAR},
+			#{salary,jdbcType=DOUBLE},
+			#{email,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertAll" keyProperty="id" parameterType="java.util.List" >
+		insert into t_user (
+			id,
+			ADDRESS,
+			REGTIME,
+			HIREDATE,
+			DEGREE,
+			PASSWORD,
+			AGE,
+			SEX,
+			USER_NAME,
+			PHONE,
+			SALARY,
+			EMAIL
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id,jdbcType=INTEGER},
+				#{item.address,jdbcType=VARCHAR},
+				#{item.regtime,jdbcType=TIMESTAMP},
+				#{item.hiredate,jdbcType=TIMESTAMP},
+				#{item.degree,jdbcType=VARCHAR},
+				#{item.password,jdbcType=VARCHAR},
+				#{item.age,jdbcType=INTEGER},
+				#{item.sex,jdbcType=INTEGER},
+				#{item.userName,jdbcType=VARCHAR},
+				#{item.phone,jdbcType=VARCHAR},
+				#{item.salary,jdbcType=DOUBLE},
+				#{item.email,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+	<update id="update" parameterType="com.guocai.user.entity.TUser" >
+		update t_user set
+		<trim suffixOverrides=",">
+			<if test="id != null" >
+				id = #{id,jdbcType=INTEGER},
+			</if>
+			<if test="address != null" >
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="regtime != null" >
+				REGTIME = #{regtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="hiredate != null" >
+				HIREDATE = #{hiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="degree != null" >
+				DEGREE = #{degree,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null" >
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null" >
+				AGE = #{age,jdbcType=INTEGER},
+			</if>
+			<if test="sex != null" >
+				SEX = #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="userName != null" >
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null" >
+				PHONE = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="salary != null" >
+				SALARY = #{salary,jdbcType=DOUBLE},
+			</if>
+			<if test="email != null" >
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateAll" parameterType="com.guocai.user.entity.TUser" >
+		<foreach collection="list" item="item" index="index" separator=";" open="" close="">
+			update t_user set
+			<trim suffixOverrides=",">
+				<if test="item.address != null" >
+					ADDRESS = #{item.address,jdbcType=VARCHAR},
+				</if>
+				<if test="item.regtime != null" >
+					REGTIME = #{item.regtime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="item.hiredate != null" >
+					HIREDATE = #{item.hiredate,jdbcType=TIMESTAMP},
+				</if>
+				<if test="item.degree != null" >
+					DEGREE = #{item.degree,jdbcType=VARCHAR},
+				</if>
+				<if test="item.password != null" >
+					PASSWORD = #{item.password,jdbcType=VARCHAR},
+				</if>
+				<if test="item.age != null" >
+					AGE = #{item.age,jdbcType=INTEGER},
+				</if>
+				<if test="item.sex != null" >
+					SEX = #{item.sex,jdbcType=INTEGER},
+				</if>
+				<if test="item.userName != null" >
+					USER_NAME = #{item.userName,jdbcType=VARCHAR},
+				</if>
+				<if test="item.phone != null" >
+					PHONE = #{item.phone,jdbcType=VARCHAR},
+				</if>
+				<if test="item.salary != null" >
+					SALARY = #{item.salary,jdbcType=DOUBLE},
+				</if>
+				<if test="item.email != null" >
+					EMAIL = #{item.email,jdbcType=VARCHAR},
+				</if>
+			</trim>
+			where ID = #{item.id,jdbcType=DECIMAL}
+		</foreach>
+	</update>
+</mapper>

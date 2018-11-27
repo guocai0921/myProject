@@ -1,0 +1,27 @@
+package ${table.getServicePackage()};
+
+import ${table.getEntityPackage()}.${table.getEntityName()};
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${table.getEntityName()}Service ${table.getTableDesc()}
+ * @author ${Author}
+ * @version ${Version}
+ * @date ${Date}
+ */
+ 
+public interface ${table.getEntityName()}Service {
+
+    List<${table.getEntityName()}> find(Map<String, Object> map);
+    int delete(${table.getEntityName()} record);
+    int deleteByPrimaryKey(Integer record);
+    int deleteAllByPrimaryKey(List<Integer> records);
+    int insert(${table.getEntityName()} record);
+    int insertAll(List<${table.getEntityName()}> records);
+    int update(${table.getEntityName()} record);
+    int updateAll(List<${table.getEntityName()}> records);
+
+}
+

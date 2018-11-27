@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+用户信息表[t_person|]
+@author Sun GuoCai
+@version v1.0.0
+@date 2018-11-19 19:46:54
+-->
+<mapper namespace="com.guocai.person.mapper.PersonMapper" >
+
+	<resultMap id="BaseResultMap" type="com.guocai.person.entity.Person" >
+		<!-- 主键ID
+ -->
+		<result column="ID" property="id" jdbcType="INTEGER" />
+		<!-- 住址 -->
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<!-- 姓名
+ -->
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<!-- 年龄 -->
+		<result column="AGE" property="age" jdbcType="INTEGER" />
+		<!-- 生日 -->
+		<result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+		<!-- 薪资 -->
+		<result column="SALARY" property="salary" jdbcType="DOUBLE" />
+	</resultMap>
+  
+ 
+	<sql id="Base_Column_List" >
+		ID,
+		ADDRESS,
+		NAME,
+		AGE,
+		BIRTHDAY,
+		SALARY
+	</sql>
+  
+	<sql id="Blob_Column_List" >
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    	<include refid="Base_Column_List" />
+		from t_person
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null" >
+				AND ID = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="address != null" >
+				AND ADDRESS = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null" >
+				AND NAME = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null" >
+				AND AGE = #{age,jdbcType=INTEGER}
+			</if>
+			<if test="birthday != null" >
+				AND BIRTHDAY = #{birthday,jdbcType=TIMESTAMP}
+			</if>
+			<if test="salary != null" >
+				AND SALARY = #{salary,jdbcType=DOUBLE}
+			</if>
+		</trim>
+		ORDER BY 
+		<if test="order != null">  
+			${order}  
+		</if>
+		<if test="order == null">  
+			ID DESC
+		</if>
+	</select>
+	<delete id="delete" parameterType="com.guocai.person.entity.Person" >
+		delete from t_person
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null" >
+				AND ID = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="address != null" >
+				AND ADDRESS = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null" >
+				AND NAME = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null" >
+				AND AGE = #{age,jdbcType=INTEGER}
+			</if>
+			<if test="birthday != null" >
+				AND BIRTHDAY = #{birthday,jdbcType=TIMESTAMP}
+			</if>
+			<if test="salary != null" >
+				AND SALARY = #{salary,jdbcType=DOUBLE}
+			</if>
+		</trim>
+	</delete>
+	<delete id="deleteByPrimaryKey" parameterType="com.guocai.person.entity.Person" >
+		delete from t_person
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<delete id="deleteAllByPrimaryKey" parameterType="java.util.List" >
+		delete from t_person
+		where id in
+		<foreach collection="list" item = "item" open="(" separator="," close=")">#{item}  
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="com.guocai.person.entity.Person" >
+		insert into t_person (
+			ID,
+			ADDRESS,
+			NAME,
+			AGE,
+			BIRTHDAY,
+			SALARY
+		)
+		values (
+			#{id,jdbcType=INTEGER},
+			#{address,jdbcType=VARCHAR},
+			#{name,jdbcType=VARCHAR},
+			#{age,jdbcType=INTEGER},
+			#{birthday,jdbcType=TIMESTAMP},
+			#{salary,jdbcType=DOUBLE}
+		)
+	</insert>
+	<insert id="insertAll" parameterType="java.util.List" >
+		insert into t_person (
+			ID,
+			ADDRESS,
+			NAME,
+			AGE,
+			BIRTHDAY,
+			SALARY
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id,jdbcType=INTEGER},
+
+				#{item.address,jdbcType=VARCHAR},
+
+				#{item.name,jdbcType=VARCHAR},
+
+				#{item.age,jdbcType=INTEGER},
+
+				#{item.birthday,jdbcType=TIMESTAMP},
+
+				#{item.salary,jdbcType=DOUBLE}
+
+			)
+		</foreach>
+	</insert>
+	<update id="update" parameterType="com.guocai.person.entity.Person" >
+		update t_person set
+		<trim suffixOverrides=",">
+			<if test="id != null" >
+				ID = #{id,jdbcType=INTEGER},
+			</if>
+			<if test="address != null" >
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null" >
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null" >
+				AGE = #{age,jdbcType=INTEGER},
+			</if>
+			<if test="birthday != null" >
+				BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+			</if>
+			<if test="salary != null" >
+				SALARY = #{salary,jdbcType=DOUBLE},
+			</if>
+		</trim>
+		where ID = #{sid,jdbcType=DECIMAL}
+	</update>
+	<update id="updateAll" parameterType="com.guocai.person.entity.Person" >
+		<foreach collection="list" item="item" index="index" separator=";" open="" close="">
+			update t_person set
+			<trim suffixOverrides=",">
+				<if test="item.id != null" >
+					ID = #{item.id,jdbcType=INTEGER},
+				</if>
+				<if test="item.address != null" >
+					ADDRESS = #{item.address,jdbcType=VARCHAR},
+				</if>
+				<if test="item.name != null" >
+					NAME = #{item.name,jdbcType=VARCHAR},
+				</if>
+				<if test="item.age != null" >
+					AGE = #{item.age,jdbcType=INTEGER},
+				</if>
+				<if test="item.birthday != null" >
+					BIRTHDAY = #{item.birthday,jdbcType=TIMESTAMP},
+				</if>
+				<if test="item.salary != null" >
+					SALARY = #{item.salary,jdbcType=DOUBLE},
+				</if>
+			</trim>
+			where ID = #{item.id,jdbcType=DECIMAL}
+		</foreach>
+	</update>
+</mapper>

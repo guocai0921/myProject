@@ -1,0 +1,68 @@
+package ${table.getServiceImplPackage()};
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${table.getJavaMapperPackage()}.${table.getEntityName()}Mapper;
+import ${table.getEntityPackage()}.${table.getEntityName()};
+import ${table.getServicePackage()}.${table.getEntityName()}Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${table.getEntityName()}ServiceImpl ${table.getTableDesc()}
+ * @author ${Author}
+ * @version ${Version}
+ * @date ${Date}
+ */
+ 
+@Service
+public class ${table.getEntityName()}ServiceImpl implements ${table.getEntityName()}Service
+{
+	private static final Log logger = LogFactory.getLog(${table.getEntityName()}ServiceImpl.class);
+    @Autowired
+    private ${table.getEntityName()}Mapper ${table.getFirstLetterLowerEntityName()}Mapper;
+
+    @Override
+    public List<${table.getEntityName()}> find(Map<String, Object> map) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.find(map);
+    }
+
+    @Override
+    public int delete(${table.getEntityName()} record) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.delete(record);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(Integer record) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.deleteByPrimaryKey(record);
+    }
+
+    @Override
+    public int deleteAllByPrimaryKey(List<Integer> records) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.deleteAllByPrimaryKey(records);
+    }
+
+    @Override
+    public int insert(${table.getEntityName()} record) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.insert(record);
+    }
+
+    @Override
+    public int insertAll(List<${table.getEntityName()}> records) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.insertAll(records);
+    }
+
+    @Override
+    public int update(${table.getEntityName()} record) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.update(record);
+    }
+
+    @Override
+    public int updateAll(List<${table.getEntityName()}> records) {
+        return ${table.getFirstLetterLowerEntityName()}Mapper.updateAll(records);
+    }
+
+}

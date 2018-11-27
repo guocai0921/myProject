@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guocai.generator.mapper.TableMapper">
+    <resultMap id="TableResultMap" type="com.guocai.generator.entity.Table">
+        <result column="TABLE_NAME" property="tableName" jdbcType="VARCHAR"/>
+        <result column="TABLE_DESC" property="tableDesc" jdbcType="VARCHAR"/>
+        <result column="TABLE_TYPE" property="tableType" jdbcType="VARCHAR"/>
+        <association property="columns" column="TABLE_NAME" select="findTableColumns"/>
+    </resultMap>
+
+    <resultMap id="ColumnResultMap" type="com.guocai.generator.entity.Column">
+        <result column="COLUMN_NAME" property="columnName" jdbcType="VARCHAR"/>
+        <result column="COLUMN_DESC" property="columnDesc" jdbcType="VARCHAR"/>
+        <result column="DATA_TYPE" property="dataType" jdbcType="VARCHAR"/>
+        <result column="DATA_PRECISION" property="dataPrecision" jdbcType="DECIMAL"/>
+        <result column="DATA_SCALE" property="dataScale" jdbcType="DECIMAL"/>
+        <result column="NULL_FLAG" property="nullFlag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getTablesByPrefix" resultMap="TableResultMap" parameterType="java.util.Map">
+        SELECT *
+        FROM
+        (SELECT TABLE_NAME, TABLE_COMMENT as TABLE_DESC, ''as TABLE_TYPE FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'ssm') T
+        where 1=1
+        <if test="tablePrefix != null">
+            and T.TABLE_NAME like '${tablePrefix}%'
+        </if>
+        <if test="tableName != null">
+            and T.TABLE_NAME = #{tableName}
+        </if>
+    </select>
+
+    <select id="findTableColumns" resultMap="ColumnResultMap">
+        Select COLUMN_NAME as COLUMN_NAME ,
+        COLUMN_COMMENT as COLUMN_DESC ,data_type as DATA_TYPE,
+        CHARACTER_MAXIMUM_LENGTH as DATA_PRECISION, '' as DATA_SCALE,
+        IS_NULLABLE as NULL_FLAG
+          from INFORMATION_SCHEMA.COLUMNS
+      Where table_name = #{tableName,jdbcType=VARCHAR} and
+      column_name not in ('CREATE_BY','CREATE_TIME','UPDATE_BY','UPDATE_TIME','COMPANY_CODE','department_code','is_void','tbl_version','loc_timezone')
+  AND table_schema = 'ssm' order by COLUMN_COMMENT asc
+    </select>
+
+</mapper>
